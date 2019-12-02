@@ -50,8 +50,8 @@ public class Parallax : MonoBehaviour
         startTargetSize = targetSize;                          // сохраняет стартовый масштаб
         scale = 1;
         if (!Application.isEditor)
-            cam.orthographicSize = targetSize * (4f / 3f) / ((float)Screen.width / Screen.height);
-        startSize = cam.orthographicSize;
+            cam.orthographicSize = targetSize * (4f / 3f) / ((float)Screen.width / Screen.height);  // если не эдитор, то подбирает масштаб
+        startSize = cam.orthographicSize;                      // сохраняет стартовый размер камеры
         speedOffset = 4;
         zoom = false;
     }
@@ -70,7 +70,7 @@ public class Parallax : MonoBehaviour
         float changeScale = scale;
         float valueDeltaScale = Input.mouseScrollDelta.y / 10f;
         Vector2 centerScroll = Input.mousePosition;
-        if (Input.touchCount == 2)
+        if (Input.touchCount == 2)                             // МАСШТАБИРОВАНИЕ!!!
         {
             if (!zoom)
             {
@@ -96,11 +96,12 @@ public class Parallax : MonoBehaviour
             offset -= offsetScroll * changeScale * 5;
             UpdateOffset();
         }
+        Debug.Log(startTargetSize);
         targetSize = startTargetSize * scale;
         switch (type)
         {
             case ParallaxMoveType.Press:
-                if (Input.touchCount != 2)
+                if (Input.touchCount < 2)
                 {
                     if (Input.GetMouseButtonDown(0))
                         if (UnityEngine.EventSystems.EventSystem.current == null || UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject == null)

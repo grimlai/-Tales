@@ -61,6 +61,7 @@
      <Compile Include="Assets\Scripts\Simple\ChangeCultureInfo.cs" />
      <Compile Include="Assets\Scripts\Simple\MBForDelay.cs" />
      <Compile Include="Assets\Scripts\Simple\Simple.cs" />
+     <Compile Include="Assets\Scripts\Simple\UIManager.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/User/КвесTales/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
