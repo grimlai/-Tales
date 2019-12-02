@@ -45,9 +45,9 @@ public class Parallax : MonoBehaviour
 
     void Start()
     {
-        cam = GetComponent<Camera>();
-        startPosition = transform.position;
-        startTargetSize = targetSize;
+        cam = GetComponent<Camera>();                          // берёт камеру с персонажа и записывает в переменную cam 
+        startPosition = transform.position;                    // сохраняет стартовую позицию
+        startTargetSize = targetSize;                          // сохраняет стартовый масштаб
         scale = 1;
         if (!Application.isEditor)
             cam.orthographicSize = targetSize * (4f / 3f) / ((float)Screen.width / Screen.height);
