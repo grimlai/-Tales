@@ -31,6 +31,7 @@ public class Inventar : MonoBehaviour
 
     public void GetItem(Sprite its, ItemType itUse)
     {
+        index = 0;
         while (!(it[index].sprite == null))
         {
             index++;
