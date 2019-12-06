@@ -5,12 +5,15 @@ using UnityEngine.UI;
 
 public enum ItemType
 {
-    Kay, Card, Ball, Backet, Bast, Apple, Booc, Egg
+    None,Kay, Card, Ball, Backet, Bast, Apple, Booc, Egg
 }
 
 public class Inventar : MonoBehaviour
 {
     public static Inventar inventar;
+
+    public Image selectidIm;
+    public Item selectidIt;
     int index;
     public Image[] it = new Image[5];
     public Item[] items = new Item[5];
@@ -40,12 +43,20 @@ public class Inventar : MonoBehaviour
     }
     public bool Use(ItemType toUse)
     {
-        if (toUse == items[index].itUse)
+        if (toUse == selectidIt.itUse)
         {
-            it[index].sprite = null;
-            it[index].color = new Color(1, 1, 1, 0);
+            selectidIm.sprite = null;
+            selectidIm.color = new Color(1, 1, 1, 0);
             return true;
         }
         else return false;
     }
+
+    public void ItNum(int itnum)
+    {
+        selectidIm = it[itnum];
+        selectidIt = items[itnum];
+        Debug.Log(selectidIt.itUse);
+    }
 }
+

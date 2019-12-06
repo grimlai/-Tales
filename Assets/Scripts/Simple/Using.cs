@@ -4,22 +4,33 @@ using UnityEngine;
 
 public class Using : MonoBehaviour
 {
+    public GameObject newSprite;
     bool have;
     public ItemType toUse;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void OnMouseDown()
     {
-        have = Inventar.inventar.Use(toUse);
+        if (toUse == ItemType.None)
+        {
+            newSprite.SetActive(true);
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            have = Inventar.inventar.Use(toUse);
+            if (have)
+                gameObject.SetActive(false);
+        }
     }
 }
