@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Using : MonoBehaviour
 {
-    public int toUse;
+    bool have;
+    public ItemType toUse;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +20,6 @@ public class Using : MonoBehaviour
 
     void OnMouseDown()
     {
-        Inventar.inventar.Use(toUse);
+        have = Inventar.inventar.Use(toUse);
     }
 }
