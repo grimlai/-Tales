@@ -101,7 +101,7 @@ public class Parallax : MonoBehaviour
                 offset -= offsetScroll * changeScale * 5;
                 UpdateOffset();
             }
-            Debug.Log(startTargetSize);
+            //Debug.Log(startTargetSize);
             targetSize = startTargetSize * scale;
             switch (type)
             {
