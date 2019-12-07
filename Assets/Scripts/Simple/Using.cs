@@ -62,7 +62,7 @@ public class Using : MonoBehaviour
         }
     }
 
-    void Use()
+    public void Use()
     {
         switch (doing)
         {
@@ -112,7 +112,7 @@ public class Using : MonoBehaviour
 
     public void CodInput()
     {
-        if (codetext.text == "5634")
+        if (codetext.text == "2315")
             cod = true;
         else codetext.text = null;
     }

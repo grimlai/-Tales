@@ -64,6 +64,7 @@
      <Compile Include="Assets\Scripts\Simple\Inventar.cs" />
      <Compile Include="Assets\Scripts\Simple\Item.cs" />
      <Compile Include="Assets\Scripts\Simple\MBForDelay.cs" />
+     <Compile Include="Assets\Scripts\Simple\PCCode.cs" />
      <Compile Include="Assets\Scripts\Simple\Simple.cs" />
      <Compile Include="Assets\Scripts\Simple\UIManager.cs" />
      <Compile Include="Assets\Scripts\Simple\Using.cs" />
