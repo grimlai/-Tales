@@ -61,7 +61,7 @@ public class Inventar : MonoBehaviour
     {
         selectidIm = it[itnum];
         selectidIt = items[itnum];
-        Debug.Log(selectidIt.itUse);
+        //Debug.Log(selectidIt.itUse);
     }
 
     public int HelpNeed()
