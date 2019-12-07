@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public enum ItemType
 {
-    None,Kay, Card, Ball, Backet, Bast, Apple, Booc, Egg
+    None, Kay, Card, Ball, Backet, Bast, Apple, Booc, Egg, Wrench, BirdFood
 }
 
 public class Inventar : MonoBehaviour
 {
     public static Inventar inventar;
 
+    public bool[] helpt = new bool[40];
     public Image selectidIm;
     public Item selectidIt;
     int index;
@@ -26,11 +27,12 @@ public class Inventar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        helpt[0] = true;
     }
 
-    public void GetItem(Sprite its, ItemType itUse)
+    public void GetItem(Sprite its, ItemType itUse, int h)
     {
+        helpt[h] = true;
         index = 0;
         while (!(it[index].sprite == null))
         {
@@ -42,12 +44,14 @@ public class Inventar : MonoBehaviour
         it[index].sprite = its;
         it[index].color = Color.white;
     }
-    public bool Use(ItemType toUse)
+    public bool Use(ItemType toUse, int h)
     {
         if (toUse == selectidIt.itUse)
         {
             selectidIm.sprite = null;
             selectidIm.color = new Color(1, 1, 1, 0);
+            selectidIm = null;
+            selectidIt = null;
             return true;
         }
         else return false;
@@ -58,6 +62,18 @@ public class Inventar : MonoBehaviour
         selectidIm = it[itnum];
         selectidIt = items[itnum];
         Debug.Log(selectidIt.itUse);
+    }
+
+    public int HelpNeed()
+    {
+        int i = 0;
+        while (i < helpt.Length)
+        {
+            if (helpt[i] != false)
+                i++;
+            else return i;
+        }
+        return i;
     }
 }
 

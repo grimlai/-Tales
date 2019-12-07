@@ -11,7 +11,7 @@ public enum ParallaxMoveType
 [ExecuteInEditMode]
 public class Parallax : MonoBehaviour
 {
-    public bool startA;
+    public static bool startA;
     static Parallax current;
     int numlocation;
     public AnimationCurve curve;

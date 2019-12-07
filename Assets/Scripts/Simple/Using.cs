@@ -1,14 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
 
 public enum Doing
 {
-    Hide, Show, Animation, Popap, Move, News
+    Hide, Show, Animation, Popap, Move, News, Water
 }
 
 public class Using : MonoBehaviour
 {
+    public int helpnum;
+    public Animation animation;
+    public Text codetext;
+    public bool cod;
     public float stopposy;
     public float stopposx;
     public Doing doing;
@@ -33,15 +40,22 @@ public class Using : MonoBehaviour
 
     void OnMouseDown()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
         if (toUse == ItemType.None)
         {
             //newSprite.SetActive(true);
             //gameObject.SetActive(false);
-            Use();
+            if (cod)
+            {
+                doing = Doing.Move;
+                Use();
+            }
+            else Use();
         }
         else
         {
-            have = Inventar.inventar.Use(toUse);
+            have = Inventar.inventar.Use(toUse, helpnum);
             if (have)
                 Use();
             //gameObject.SetActive(false);
@@ -56,11 +70,16 @@ public class Using : MonoBehaviour
                 gameObject.SetActive(false);
                 break;
             case Doing.Show:
-                gameObject.SetActive(true);
+                newSprite.SetActive(true);
                 break;
             case Doing.Animation:
+                animation.Play();
+                if (newSprite != null)
+                    newSprite.SetActive(true);
                 break;
             case Doing.Popap:
+                newSprite.SetActive(true);
+                Parallax.startA = false;
                 break;
             case Doing.Move:
                 StartCoroutine(Move());
@@ -69,9 +88,12 @@ public class Using : MonoBehaviour
                 newSprite.SetActive(true);
                 gameObject.SetActive(false);
                 break;
+            case Doing.Water:
+                break;
             default:
                 break;
         }
+        Inventar.inventar.helpt[helpnum] = true;
     }
 
     IEnumerator Move()
@@ -86,5 +108,12 @@ public class Using : MonoBehaviour
             gameObject.transform.position += new Vector3(4.5f, 0, 0) * Time.deltaTime;
             yield return null;
         }
+    }
+
+    public void CodInput()
+    {
+        if (codetext.text == "5634")
+            cod = true;
+        else codetext.text = null;
     }
 }
