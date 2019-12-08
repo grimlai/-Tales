@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public enum ItemType
 {
-    None, Kay, Card, Ball, Backet, Bast, Apple, Booc, Egg, Wrench, BirdFood
+    None, Kay, Card, Ball, Backet, Bast, Apple, Booc, Egg, Wrench, BirdFood, fish, Net, Skoth, Charger
 }
 
 public class Inventar : MonoBehaviour
@@ -52,6 +52,7 @@ public class Inventar : MonoBehaviour
             selectidIm.color = new Color(1, 1, 1, 0);
             selectidIm = null;
             selectidIt = null;
+            helpt[h] = true;
             return true;
         }
         else return false;
