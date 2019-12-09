@@ -34,7 +34,7 @@ public class Using : MonoBehaviour
 
     }
 
-    void OnMouseDown()
+    void OnMouseUp()
     {
         if (EventSystem.current.IsPointerOverGameObject())
             return;

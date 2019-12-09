@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public enum ItemType
 {
-    None, Kay, Card, Ball, Backet, Bast, Apple, Booc, Egg, Wrench, BirdFood, fish, Net, Skoth, Charger
+    None, Kay, Card, Ball, Backet, Bast, Apple, Booc, Egg, Wrench, BirdFood, fish, Net, Skoth, Charger, Cheese, Stairs, PatCarrier, Mouse, Knife
 }
 
 public class Inventar : MonoBehaviour

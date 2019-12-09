@@ -17,6 +17,7 @@ public class Parallax : MonoBehaviour
     public AnimationCurve curve;
     public ParallaxMoveType type;
     public float targetSize;
+    public GameObject picture;
     public Vector2 offset, targetPointMove, clampScale = new Vector2(.5f, 1);
     public List<ParallaxElement> elements;
     [HideInInspector]
@@ -222,16 +223,24 @@ public class Parallax : MonoBehaviour
     public void Left()
     {
         if (numlocation == 0)
+        {
             numlocation = 3;
+            picture.transform.localPosition = new Vector3(-150, 0, 0);
+        }
         else numlocation -= 1;
         startPosition = startPositionA + new Vector3(50, 0, 0) * numlocation;
+        picture.transform.position += new Vector3(50, 0, 0);
     }
     public void Right()
     {
         if (numlocation == 3)
+        {
             numlocation = 0;
+            picture.transform.localPosition = new Vector3(100, 0, 0);
+        }
         else numlocation += 1;
         startPosition = startPositionA + new Vector3(50, 0, 0) * numlocation;
+        picture.transform.position -= new Vector3(50, 0, 0);
     }
 }
 
