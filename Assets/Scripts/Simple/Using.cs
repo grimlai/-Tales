@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public enum Doing
 {
-    Hide, Show, Animation, Popap, News, Water, Item
+    Hide, Show, Animation, Popap, News, Water, Item, End
 }
 
 public class Using : MonoBehaviour
@@ -92,6 +92,9 @@ public class Using : MonoBehaviour
                 os = GetComponent<SpriteRenderer>().sprite;
                 Inventar.inventar.GetItem(os, ItemType.fish, helpnum);
                 Destroy(gameObject);
+                break;
+            case Doing.End:
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
                 break;
             default:
                 break;

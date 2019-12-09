@@ -49,7 +49,7 @@ public class PCCode : MonoBehaviour, IDragHandler
 
     public void C1(int cn)
     {
-        if (time[cn] > 1.2)
+        if (time[cn] > 0.6)
             {
                 cn *= 3;
                 int i = 0;
@@ -67,7 +67,7 @@ public class PCCode : MonoBehaviour, IDragHandler
 
     public void C2(int cn)
     {
-        if (time[cn] > 1.2)
+        if (time[cn] > 0.6)
             {
                 cn *= 3;
                 int i = 0;
@@ -97,7 +97,7 @@ public class PCCode : MonoBehaviour, IDragHandler
 
     public void Animate(int an)
     {
-        if (time[an] > 1.2)
+        if (time[an] > 0.6)
         {
             animation[an].Play("PCcodeDown");
             time[an] = 0;
@@ -106,7 +106,7 @@ public class PCCode : MonoBehaviour, IDragHandler
 
     public void AnimateDown(int an)
     {
-        if (time[an] > 1.2)
+        if (time[an] > 0.6)
         {
             animation[an].Play("PCCode");
             time[an] = 0;

@@ -225,7 +225,7 @@ public class Parallax : MonoBehaviour
         if (numlocation == 0)
         {
             numlocation = 3;
-            picture.transform.localPosition = new Vector3(-150, 0, 0);
+            picture.transform.localPosition = new Vector3(-150, 0, 11.5f);
         }
         else numlocation -= 1;
         startPosition = startPositionA + new Vector3(50, 0, 0) * numlocation;
@@ -236,7 +236,7 @@ public class Parallax : MonoBehaviour
         if (numlocation == 3)
         {
             numlocation = 0;
-            picture.transform.localPosition = new Vector3(100, 0, 0);
+            picture.transform.localPosition = new Vector3(100, 0,11.5f);
         }
         else numlocation += 1;
         startPosition = startPositionA + new Vector3(50, 0, 0) * numlocation;
