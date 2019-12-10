@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Editor\OrderComponentEditor.cs" />
      <Compile Include="Assets\Editor\SimpleEditor.cs" />
  <Reference Include="UnityEditor.TestRunner">
  <HintPath>C:/Users/User/КвесTales/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>

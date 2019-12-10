@@ -11,11 +11,13 @@ public enum ParallaxMoveType
 [ExecuteInEditMode]
 public class Parallax : MonoBehaviour
 {
+    public static bool startA;
     static Parallax current;
-
+    int numlocation;
     public AnimationCurve curve;
     public ParallaxMoveType type;
     public float targetSize;
+    public GameObject picture;
     public Vector2 offset, targetPointMove, clampScale = new Vector2(.5f, 1);
     public List<ParallaxElement> elements;
     [HideInInspector]
@@ -25,11 +27,11 @@ public class Parallax : MonoBehaviour
     Camera cam;
 
     Coroutine moveCoroutine;
-    Vector3 oldMousePosition, startPosition;
+    Vector3 oldMousePosition, startPosition, startPositionA;
     Vector2 inertia, startInertia, startMove, oldPositionTouch1, oldPositionTouch2;
     float speedOffset;
     float startTargetSize, startSize, scale;
-    bool move, zoom;
+    bool move, zoom, musik, sound;
 
     public static Parallax Current
     {
@@ -45,9 +47,13 @@ public class Parallax : MonoBehaviour
 
     void Start()
     {
+        sound = true;
+        musik = true;
+        startA = true;
         cam = GetComponent<Camera>();                          // берёт камеру с персонажа и записывает в переменную cam 
-        startPosition = transform.position;                    // сохраняет стартовую позицию
+        startPositionA = transform.position;                    // сохраняет стартовую позицию
         startTargetSize = targetSize;                          // сохраняет стартовый масштаб
+        startPosition = startPositionA;
         scale = 1;
         if (!Application.isEditor)
             cam.orthographicSize = targetSize * (4f / 3f) / ((float)Screen.width / Screen.height);  // если не эдитор, то подбирает масштаб
@@ -58,128 +64,136 @@ public class Parallax : MonoBehaviour
 
     void Update()
     {
-        if (Application.isEditor)
+        //if(musik)
+
+        //    else
+        //            if (sound)
+
+        //    else
+        if (startA)
         {
-            if (startTargetSize == 0)
+            if (Application.isEditor)
             {
-                startTargetSize = targetSize;
-                scale = 1;
-            }
-        }
-        cam.orthographicSize = targetSize * (4f / 3f) / ((float)Screen.width / Screen.height);
-        float changeScale = scale;
-        float valueDeltaScale = Input.mouseScrollDelta.y / 10f;
-        Vector2 centerScroll = Input.mousePosition;
-        if (Input.touchCount == 2)                             // МАСШТАБИРОВАНИЕ!!!
-        {
-            if (!zoom)
-            {
-                zoom = true;
-                oldPositionTouch1 = Input.GetTouch(0).position;
-                oldPositionTouch2 = Input.GetTouch(1).position;
-                centerScroll = (oldPositionTouch1 + oldPositionTouch2) / 2;
-            }
-            else
-            {
-                valueDeltaScale = ((Input.GetTouch(0).position - Input.GetTouch(1).position).magnitude - (oldPositionTouch1 - oldPositionTouch2).magnitude) / (Screen.dpi * 2);
-                oldPositionTouch1 = Input.GetTouch(0).position;
-                oldPositionTouch2 = Input.GetTouch(1).position;
-            }
-        }
-        else zoom = false;
-        scale *= 1 - valueDeltaScale;
-        scale = Mathf.Clamp(scale, clampScale.x, clampScale.y);
-        changeScale -= scale;
-        if (changeScale != 0)
-        {
-            Vector2 offsetScroll = new Vector2(centerScroll.x / Screen.width - .5f, centerScroll.y / Screen.height - .5f);
-            offset -= offsetScroll * changeScale * 5;
-            UpdateOffset();
-        }
-        Debug.Log(startTargetSize);
-        targetSize = startTargetSize * scale;
-        switch (type)
-        {
-            case ParallaxMoveType.Press:
-                if (Input.touchCount < 2)
+                if (startTargetSize == 0)
                 {
-                    if (Input.GetMouseButtonDown(0))
-                        if (UnityEngine.EventSystems.EventSystem.current == null || UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject == null)
-                        {
-                            oldMousePosition = Input.mousePosition;
-                            startMove = offset;
-                            move = true;
-                        }
-                    if (move && Input.GetMouseButton(0) && /*(SceneManager.Current == null || SceneManager.Current.State == SceneState.FindObjects) &&*/ !fixedPosition)
-                    {
-                        Vector2 delta = Input.mousePosition - oldMousePosition;
-                        delta = new Vector2(delta.x / Screen.width, delta.y / Screen.height) * speedOffset * scale;
-                        offset += delta;
-                        UpdateOffset();
-                        oldMousePosition = Input.mousePosition;
-                        startInertia = inertia = delta;
-                    }
-                    if (Input.GetMouseButtonUp(0))
-                    {
-                        move = false;
-                        startMove = offset;
-                    }
+                    startTargetSize = targetSize;
+                    scale = 1;
                 }
-                break;
-            case ParallaxMoveType.Tracking:
-                if (moveCoroutine != null)
-                    StopCoroutine(moveCoroutine);
-                Vector2 target = Input.mousePosition;
-                if (targetPointMove != Vector2.zero)
-                    target = targetPointMove;
+            }
+            cam.orthographicSize = targetSize * (4f / 3f) / ((float)Screen.width / Screen.height);
+            float changeScale = scale;
+            float valueDeltaScale = Input.mouseScrollDelta.y / 10f;
+            Vector2 centerScroll = Input.mousePosition;
+            if (Input.touchCount == 2)                             // МАСШТАБИРОВАНИЕ!!!
+            {
+                if (!zoom)
+                {
+                    zoom = true;
+                    oldPositionTouch1 = Input.GetTouch(0).position;
+                    oldPositionTouch2 = Input.GetTouch(1).position;
+                    centerScroll = (oldPositionTouch1 + oldPositionTouch2) / 2;
+                }
                 else
                 {
-                    target.x -= Screen.width / 2;
-                    target.x /= Screen.width / 2;
-                    target.y -= Screen.height / 2;
-                    target.y /= Screen.height / 2;
-                    target = -target;
+                    valueDeltaScale = ((Input.GetTouch(0).position - Input.GetTouch(1).position).magnitude - (oldPositionTouch1 - oldPositionTouch2).magnitude) / (Screen.dpi * 2);
+                    oldPositionTouch1 = Input.GetTouch(0).position;
+                    oldPositionTouch2 = Input.GetTouch(1).position;
                 }
-                if ((target - offset).magnitude > .001f)
-                    moveCoroutine = StartCoroutine(MoveToPosition(target, (target - offset).magnitude, true));
-                break;
-        }
-        if (inertia != Vector2.zero && !move)
-        {
-            offset += inertia;
-            UpdateOffset();
-            if (inertia.x > 0)
-            {
-                inertia.x -= Time.deltaTime * startInertia.x * 2;
-                if (inertia.x < 0)
-                    inertia.x = 0;
             }
-            else if (inertia.x < 0)
+            else zoom = false;
+            scale *= 1 - valueDeltaScale;
+            scale = Mathf.Clamp(scale, clampScale.x, clampScale.y);
+            changeScale -= scale;
+            if (changeScale != 0)
             {
-                inertia.x -= Time.deltaTime * startInertia.x * 2;
+                Vector2 offsetScroll = new Vector2(centerScroll.x / Screen.width - .5f, centerScroll.y / Screen.height - .5f);
+                offset -= offsetScroll * changeScale * 5;
+                UpdateOffset();
+            }
+            //Debug.Log(startTargetSize);
+            targetSize = startTargetSize * scale;
+            switch (type)
+            {
+                case ParallaxMoveType.Press:
+                    if (Input.touchCount < 2)
+                    {
+                        if (Input.GetMouseButtonDown(0))
+                            if (UnityEngine.EventSystems.EventSystem.current == null || UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject == null)
+                            {
+                                oldMousePosition = Input.mousePosition;
+                                startMove = offset;
+                                move = true;
+                            }
+                        if (move && Input.GetMouseButton(0) && /*(SceneManager.Current == null || SceneManager.Current.State == SceneState.FindObjects) &&*/ !fixedPosition)
+                        {
+                            Vector2 delta = Input.mousePosition - oldMousePosition;
+                            delta = new Vector2(delta.x / Screen.width, delta.y / Screen.height) * speedOffset * scale;
+                            offset += delta;
+                            UpdateOffset();
+                            oldMousePosition = Input.mousePosition;
+                            startInertia = inertia = delta;
+                        }
+                        if (Input.GetMouseButtonUp(0))
+                        {
+                            move = false;
+                            startMove = offset;
+                        }
+                    }
+                    break;
+                case ParallaxMoveType.Tracking:
+                    if (moveCoroutine != null)
+                        StopCoroutine(moveCoroutine);
+                    Vector2 target = Input.mousePosition;
+                    if (targetPointMove != Vector2.zero)
+                        target = targetPointMove;
+                    else
+                    {
+                        target.x -= Screen.width / 2;
+                        target.x /= Screen.width / 2;
+                        target.y -= Screen.height / 2;
+                        target.y /= Screen.height / 2;
+                        target = -target;
+                    }
+                    if ((target - offset).magnitude > .001f)
+                        moveCoroutine = StartCoroutine(MoveToPosition(target, (target - offset).magnitude, true));
+                    break;
+            }
+            if (inertia != Vector2.zero && !move)
+            {
+                offset += inertia;
+                UpdateOffset();
                 if (inertia.x > 0)
-                    inertia.x = 0;
-            }
-            if (inertia.y > 0)
-            {
-                inertia.y -= Time.deltaTime * startInertia.y * 2;
-                if (inertia.y < 0)
-                    inertia.y = 0;
-            }
-            else if (inertia.y < 0)
-            {
-                inertia.y -= Time.deltaTime * startInertia.y * 2;
+                {
+                    inertia.x -= Time.deltaTime * startInertia.x * 2;
+                    if (inertia.x < 0)
+                        inertia.x = 0;
+                }
+                else if (inertia.x < 0)
+                {
+                    inertia.x -= Time.deltaTime * startInertia.x * 2;
+                    if (inertia.x > 0)
+                        inertia.x = 0;
+                }
                 if (inertia.y > 0)
-                    inertia.y = 0;
+                {
+                    inertia.y -= Time.deltaTime * startInertia.y * 2;
+                    if (inertia.y < 0)
+                        inertia.y = 0;
+                }
+                else if (inertia.y < 0)
+                {
+                    inertia.y -= Time.deltaTime * startInertia.y * 2;
+                    if (inertia.y > 0)
+                        inertia.y = 0;
+                }
             }
-        }
-        if (startSize != 0)
-        {
-            float deltaSize = startSize - cam.orthographicSize;
-            transform.position = startPosition + new Vector2(deltaSize * Screen.width / Screen.height, deltaSize).Multiply(-offset).ToVector3();
+            if (startSize != 0)
+            {
+                float deltaSize = startSize - cam.orthographicSize;
+                transform.position = startPosition + new Vector2(deltaSize * Screen.width / Screen.height, deltaSize).Multiply(-offset).ToVector3();
+            }
         }
     }
-
     void UpdateOffset()
     {
         offset.x = Mathf.Clamp(offset.x, -1, 1);
@@ -206,6 +220,50 @@ public class Parallax : MonoBehaviour
         }
         fixedPosition = false;
     }
+    public void StartA()
+    {
+        startA = true;
+    }
+    public void StopA()
+    {
+        startA = false;
+    }
+    public void Left()
+    {
+        if (numlocation == 0)
+        {
+            numlocation = 3;
+            picture.transform.localPosition = new Vector3(-150, 0, 11.5f);
+        }
+        else numlocation -= 1;
+        startPosition = startPositionA + new Vector3(50, 0, 0) * numlocation;
+        picture.transform.position += new Vector3(50, 0, 0);
+    }
+    public void Right()
+    {
+        if (numlocation == 3)
+        {
+            numlocation = 0;
+            picture.transform.localPosition = new Vector3(100, 0,11.5f);
+        }
+        else numlocation += 1;
+        startPosition = startPositionA + new Vector3(50, 0, 0) * numlocation;
+        picture.transform.position -= new Vector3(50, 0, 0);
+    }
+
+    public void Musik()
+    {
+        if (musik)
+            musik = false;
+        else musik = true;
+    }
+
+    public void Sound()
+    {
+        if (sound)
+            sound = false;
+        else sound = true;
+    }
 }
 
 [System.Serializable]
@@ -224,3 +282,4 @@ public class ParallaxElement
         obj.transform.localPosition = new Vector3(offset.x * target.x, (offset.y + difference) * target.y, obj.transform.localPosition.z);
     }
 }
+
