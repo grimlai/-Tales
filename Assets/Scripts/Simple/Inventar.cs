@@ -76,5 +76,10 @@ public class Inventar : MonoBehaviour
         }
         return i;
     }
+
+    public void Hnb()
+    {
+        helpt[24] = true;
+    }
 }
 
