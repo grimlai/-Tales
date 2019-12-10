@@ -45,6 +45,8 @@ public class PCCode : MonoBehaviour, IDragHandler
         time[1] += Time.deltaTime;
         time[2] += Time.deltaTime;
         time[3] += Time.deltaTime;
+        if (time[0] > 0.6 && time[1] > 0.6 && time[2] > 0.6 && time[3] > 0.6)
+        codetext.text = c[1].text + c[4].text + c[7].text + c[10].text;
     }                  
 
     public void C1(int cn)
@@ -56,28 +58,10 @@ public class PCCode : MonoBehaviour, IDragHandler
                 while (i < 3)
                 {
                     code[cn + i]++;
-                    if (code[cn + i] > 9)
+                    if (code[cn + i] > 5)
                         code[cn + i] = 0;
                     if (code[cn + i] < 0)
-                        code[cn + i] = 9;
-                    i++;
-                }
-            }
-    }
-
-    public void C2(int cn)
-    {
-        if (time[cn] > 0.6)
-            {
-                cn *= 3;
-                int i = 0;
-                while (i < 3)
-                {
-                    code[cn + i]--;
-                    if (code[cn + i] > 9)
-                        code[cn + i] = 0;
-                    if (code[cn + i] < 0)
-                        code[cn + i] = 9;
+                        code[cn + i] = 5;
                     i++;
                 }
             }
@@ -100,15 +84,6 @@ public class PCCode : MonoBehaviour, IDragHandler
         if (time[an] > 0.6)
         {
             animation[an].Play("PCcodeDown");
-            time[an] = 0;
-        }
-    }
-
-    public void AnimateDown(int an)
-    {
-        if (time[an] > 0.6)
-        {
-            animation[an].Play("PCCode");
             time[an] = 0;
         }
     }

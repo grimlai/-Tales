@@ -16,28 +16,72 @@ public class Using : MonoBehaviour
     public int helpnum;
     public Animation animation;
     public Text codetext;
-    public bool cod;
+    public bool cod, mouse;
     public Doing doing;
     public GameObject newSprite;
-    bool have;
+    bool have, codetextbool, m;
     public ItemType toUse;
+    public float timer, i;
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+        codetextbool = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (codetext != null)
+            if (codetext.text == "2315" && codetextbool)
+            {
+                newSprite.SetActive(false);
+                Parallax.startA = true;
+                newSprite = null;
+                doing = Doing.Animation;
+                Use();
+                cod = true;
+                codetextbool = false;
+            }
+        if (mouse)
+            if (m)
+            {
+                if (gameObject.transform.localPosition.x < i)
+                {
+                    gameObject.transform.position += new Vector3(2.5f, 0, 0) * Time.deltaTime;
+                }
+            }
+            else if (gameObject.transform.localPosition.x > i)
+            {
+                gameObject.transform.position -= new Vector3(2.5f, 0, 0) * Time.deltaTime;
+            }
+        if (timer > 0)
+        {
+            m = true;
+            i = 5;
+            GetComponent<Collider2D>().enabled = false;
+            timer -= Time.deltaTime;
+        }
+        if (timer <= 0)
+        {
+            m = false;
+            i = 1.5f;
+            GetComponent<Collider2D>().enabled = true;
+        }
     }
 
     void OnMouseUp()
     {
         if (EventSystem.current.IsPointerOverGameObject())
             return;
+        if (mouse)
+        {
+            m = true;
+            i = 5;
+            GetComponent<Collider2D>().enabled = false;
+            timer = 5;
+        }
         if (toUse == ItemType.None)
         {
             //newSprite.SetActive(true);
@@ -77,6 +121,8 @@ public class Using : MonoBehaviour
                 }
                 if (newSprite != null)
                     newSprite.SetActive(true);
+                if (helpnum == 15 || helpnum == 19 || helpnum == 32)
+                    Inventar.inventar.helpt[helpnum] = true;
                 break;
             case Doing.Popap:
                 newSprite.SetActive(true);
@@ -99,19 +145,21 @@ public class Using : MonoBehaviour
             default:
                 break;
         }
-        Inventar.inventar.helpt[helpnum] = true;
+        if (helpnum != 15 && helpnum != 19 && helpnum != 32)
+            Inventar.inventar.helpt[helpnum] = true;
     }
 
-    //IEnumerator Move()
+    //IEnumerator Move(float i)
     //{
-    //    while (gameObject.transform.localPosition.y < stopposy)
+    //    if (gameObject.transform.localPosition.x < i)
+    //        while (gameObject.transform.localPosition.x < i)
+    //        {
+    //            gameObject.transform.position += new Vector3(4.5f, 0, 0) * Time.deltaTime;
+    //            yield return null;
+    //        }
+    //    while (gameObject.transform.localPosition.x > i)
     //    {
-    //        gameObject.transform.position += new Vector3(0, 4.5f, 0) * Time.deltaTime;
-    //        yield return null;
-    //    }
-    //    while (gameObject.transform.localPosition.x < stopposx)
-    //    {
-    //        gameObject.transform.position += new Vector3(4.5f, 0, 0) * Time.deltaTime;
+    //        gameObject.transform.position -= new Vector3(4.5f, 0, 0) * Time.deltaTime;
     //        yield return null;
     //    }
     //}

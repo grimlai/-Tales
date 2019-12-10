@@ -17,7 +17,24 @@ public class CodeTable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        int codn = 0;
+        int i = 0;
+        while (i < 20)
+        {
+            if (i < 12)
+            {
+                if (codetr[i])
+                    codn++;
+            }
+            else
+            {
+                if (!codetr[i])
+                    codn++;
+            }
+            i++;
+        }
+        if (codn > 19)
+            codetext.text = "2315";
     }
 
     public void Cod(int index)

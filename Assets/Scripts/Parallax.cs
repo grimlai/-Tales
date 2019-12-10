@@ -31,7 +31,7 @@ public class Parallax : MonoBehaviour
     Vector2 inertia, startInertia, startMove, oldPositionTouch1, oldPositionTouch2;
     float speedOffset;
     float startTargetSize, startSize, scale;
-    bool move, zoom;
+    bool move, zoom, musik, sound;
 
     public static Parallax Current
     {
@@ -47,6 +47,8 @@ public class Parallax : MonoBehaviour
 
     void Start()
     {
+        sound = true;
+        musik = true;
         startA = true;
         cam = GetComponent<Camera>();                          // берёт камеру с персонажа и записывает в переменную cam 
         startPositionA = transform.position;                    // сохраняет стартовую позицию
@@ -62,6 +64,12 @@ public class Parallax : MonoBehaviour
 
     void Update()
     {
+        //if(musik)
+
+        //    else
+        //            if (sound)
+
+        //    else
         if (startA)
         {
             if (Application.isEditor)
@@ -241,6 +249,20 @@ public class Parallax : MonoBehaviour
         else numlocation += 1;
         startPosition = startPositionA + new Vector3(50, 0, 0) * numlocation;
         picture.transform.position -= new Vector3(50, 0, 0);
+    }
+
+    public void Musik()
+    {
+        if (musik)
+            musik = false;
+        else musik = true;
+    }
+
+    public void Sound()
+    {
+        if (sound)
+            sound = false;
+        else sound = true;
     }
 }
 

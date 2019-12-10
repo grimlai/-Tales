@@ -12,7 +12,7 @@ public class Inventar : MonoBehaviour
 {
     public static Inventar inventar;
 
-    public bool[] helpt = new bool[40];
+    public bool[] helpt = new bool[43];
     public Image selectidIm;
     public Item selectidIt;
     int index;
@@ -27,7 +27,7 @@ public class Inventar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        helpt[0] = true;
+        
     }
 
     public void GetItem(Sprite its, ItemType itUse, int h)
@@ -77,9 +77,9 @@ public class Inventar : MonoBehaviour
         return i;
     }
 
-    public void Hnb()
+    public void Hnb(int i)
     {
-        helpt[24] = true;
+        helpt[i] = true;
     }
 }
 
